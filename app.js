@@ -1,6 +1,7 @@
 // importing modules
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 // importing user defined modules
 const authRoutes = require("./routes/auth");
@@ -26,9 +27,20 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 
 // port may very according to the server we are deploying
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-// let the app listen on the port
-app.listen(PORT, () => {
-  console.log("Server is up and running!");
-});
+// connecting mongodb
+mongoose
+  .connect(process.env.mongodb_url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((_) => {
+    // let the app listen on the port
+    app.listen(PORT, () => {
+      console.log("Server is up and running!");
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
