@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const path = require("path");
 
 // importing user defined route modules
 const authRoutes = require("./routes/auth");
@@ -26,6 +27,13 @@ app.use((req, res, next) => {
 
 // letting express use bodyParser to read request body as application/json
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// serving doc html
+app.get("/", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "views", "doc.html"));
+});
 
 // using routers to handle request
 app.use("/auth", authRoutes);

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc (bitReble)</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="body">
+    <h1>Welcome to our booking backend!</h1>
+    <div class="info">
+        <h2>GET /</h2>
+        <p>* Getting the root(/) will return the documentation of our bus booking api!</p>
+        <p>* Base url : <a href="https://bitreble-booking.herokuapp.com/">https://bitreble-booking.herokuapp.com</a></p>
+    </div>
+
+    <h1>Registration hit points!</h1>
+
+    <div class="info">
+        <h2>POST /auth/signup/operator</h2>
+        <p>* To create a operator, you have to send a post request to this end point!</p>
+        
+        <div class="data">
+            <div class="req">
+                <h2>Request</h2>
+                <div id="signup-operator-request">
+                </div>
+            </div>
+
+            <div class="req">
+                <h2>Response</h2>
+                <div id="signup-operator-response">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h1>Authendication hit points!</h1>
+
+    <div class="info">
+        <h2>POST /auth/signin/admin</h2>
+        <p>* To signin as a admin, you have to send a post request to this end point!</p>
+    
+        <div class="data">
+            <div class="req">
+                <h2>Request</h2>
+                <div id="signin-admin-request">
+                </div>
+            </div>
+    
+            <div class="req">
+                <h2>Response</h2>
+                <div id="signin-admin-response">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info">
+        <h2>POST /auth/signin/operator</h2>
+        <p>* To signin as a operator, you have to send a post request to this end point!</p>
+    
+        <div class="data">
+            <div class="req">
+                <h2>Request</h2>
+                <div id="signin-operator-request">
+                </div>
+            </div>
+    
+            <div class="req">
+                <h2>Response</h2>
+                <div id="signin-operator-response">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
