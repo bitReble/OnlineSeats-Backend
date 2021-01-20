@@ -1,9 +1,14 @@
 // importing modules
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-// importing user defined modules
+// importing user defined route modules
 const authRoutes = require("./routes/auth");
+
+// importing user defined schemas
+const Admin = require("./model/admin");
 
 // creating express app
 const app = express();
@@ -26,9 +31,42 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 
 // port may very according to the server we are deploying
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-// let the app listen on the port
-app.listen(PORT, () => {
-  console.log("Server is up and running!");
+// wildcard error handling
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode;
+  const messages = error.messages;
+  const data = error.data;
+  res.status(status).json({ messages: messages, data: data });
 });
+
+// connecting mongodb
+mongoose
+  .connect(process.env.mongodb_url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(async (_) => {
+    // creating system admin
+    const isAdminExist = await Admin.exists({ email: process.env.admin_email });
+    if (!isAdminExist) {
+      const hash = await bcrypt.hash(process.env.admin_password, 12);
+
+      const admin = new Admin({
+        email: process.env.admin_email,
+        password: hash,
+      });
+
+      await admin.save();
+    }
+
+    // let the app listen on the port
+    app.listen(PORT, () => {
+      console.log("Server is up and running!");
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
