@@ -5,6 +5,19 @@ const { defineAdmin } = require("./util/define-admin");
 // port may very according to the server we are deploying
 const PORT = process.env.PORT || 3000;
 
+if (!process.env.mongodb_url) {
+  throw new Error("mongodb_url must be defined");
+}
+if (!process.env.admin_email) {
+  throw new Error("admin_email must be defined");
+}
+if (!process.env.admin_password) {
+  throw new Error("admin_password must be defined");
+}
+if (!process.env.jwt_secret) {
+  throw new Error("jwt_secret must be defined");
+}
+
 // connecting mongodb
 mongoose
   .connect(process.env.mongodb_url, {
