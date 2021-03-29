@@ -20,7 +20,7 @@ exports.signupOperator = async (req, res, next) => {
   });
 
   await operator.save();
-  return res.json({
+  return res.status(201).json({
     msg: "operator was successfully created!",
     _id: operator._id,
   });
