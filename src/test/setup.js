@@ -7,13 +7,14 @@ let mongo;
 beforeAll(async () => {
   process.env.admin_email = "slbooking@gmail.com";
   process.env.admin_password = "bitReble";
+  process.env.JWT_KEY = "i_use_bitreble_for_jwt";
+
   mongo = new MongoMemoryServer();
   const mongoUri = await mongo.getUri();
   await mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  await defineAdmin();
 });
 
 beforeEach(async () => {
@@ -22,6 +23,7 @@ beforeEach(async () => {
   collections.forEach(async (collection) => {
     await collection.deleteMany({});
   });
+  await defineAdmin();
 });
 
 afterAll(async () => {

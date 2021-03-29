@@ -1,6 +1,13 @@
-const Admin = require("../../model/admin");
+const request = require("supertest");
+const app = require("../../app");
 
-it("defines admin on startup", async () => {
-  const admin = await Admin.findOne({ email: process.env.admin_email });
-  expect(admin).toBeDefined();
+it("response with web tocken when valid credentials given", async () => {
+  const res = await request(app)
+    .post("/auth/signin/admin")
+    .send({
+      email: process.env.admin_email,
+      password: process.env.admin_password,
+    })
+    .expect(200);
+  expect(res.body).toBeDefined();
 });

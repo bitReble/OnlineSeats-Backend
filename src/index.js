@@ -14,8 +14,8 @@ if (!process.env.admin_email) {
 if (!process.env.admin_password) {
   throw new Error("admin_password must be defined");
 }
-if (!process.env.jwt_secret) {
-  throw new Error("jwt_secret must be defined");
+if (!process.env.JWT_KEY) {
+  throw new Error("JWT_KEY must be defined");
 }
 
 // connecting mongodb

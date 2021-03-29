@@ -1,4 +1,5 @@
 // importing modules
+const { validateRequest } = require("@coders2authority/tik-common");
 const express = require("express");
 const { body } = require("express-validator");
 
@@ -31,6 +32,7 @@ router.post(
     body("password").trim().isLength({ min: 8 }),
     body("name").trim().not().isEmpty(),
   ],
+  validateRequest,
   authController.signupOperator
 );
 
@@ -44,6 +46,7 @@ router.post(
       .normalizeEmail(),
     body("password").trim().isLength({ min: 8 }),
   ],
+  validateRequest,
   authController.signinOperator
 );
 
@@ -57,6 +60,7 @@ router.post(
       .normalizeEmail(),
     body("password").trim().isLength({ min: 8 }),
   ],
+  validateRequest,
   authController.signinAdmin
 );
 

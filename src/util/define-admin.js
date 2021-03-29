@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-
 // importing user defined schemas
 const Admin = require("../model/admin");
 

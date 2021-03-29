@@ -6,6 +6,6 @@ exports.toHash = async (password) => {
 };
 
 exports.compare = async (storedPassword, suppliedPassword) => {
-  const isAuth = await bcrypt.compare(password, admin.password);
+  const isAuth = await bcrypt.compare(suppliedPassword, storedPassword);
   return isAuth;
 };

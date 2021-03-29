@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 
 // importing user defined route modules
 const authRoutes = require("./routes/auth");
+const { errorHandler } = require("@coders2authority/tik-common");
 
 // creating express app
 const app = express();
@@ -24,13 +25,6 @@ app.use(bodyParser.json());
 // using routers to handle request
 app.use("/auth", authRoutes);
 
-// wildcard error handling
-app.use((error, req, res, next) => {
-  console.log(error);
-  const status = error.statusCode;
-  const messages = error.messages;
-  const data = error.data;
-  res.status(status).json({ messages: messages, data: data });
-});
+app.use(errorHandler);
 
 module.exports = app;
