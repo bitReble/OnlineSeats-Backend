@@ -1,11 +1,13 @@
 // importing modules
 const { validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // importing user defined schema modules
 const Operator = require("../model/operator");
 const Admin = require("../model/admin");
+
+// importing user defined functions
+const { compare, toHash } = require("../util/password");
 
 // operator signup controller
 exports.signupOperator = async (req, res, next) => {
@@ -23,11 +25,10 @@ exports.signupOperator = async (req, res, next) => {
   const { email, name, password } = req.body;
 
   try {
-    const hash = await bcrypt.hash(password, 12);
     const operator = new Operator({
       name: name,
       email: email,
-      password: hash,
+      password: password,
     });
 
     await operator.save();
@@ -68,7 +69,7 @@ exports.signinOperator = async (req, res, next) => {
       return next(error);
     }
 
-    const isAuth = await bcrypt.compare(password, operator.password);
+    const isAuth = await compare(password, operator.password);
 
     if (!isAuth) {
       const error = new Error("wrong password!");
@@ -122,7 +123,7 @@ exports.signinAdmin = async (req, res, next) => {
       return next(error);
     }
 
-    const isAuth = await bcrypt.compare(password, admin.password);
+    const isAuth = await compare(admin.password, password);
 
     if (!isAuth) {
       const error = new Error("wrong password!");
