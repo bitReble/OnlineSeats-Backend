@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { defineAdmin } = require("../util/define-admin");
+const Operator = require("../model/operator");
 
 let mongo;
 
@@ -30,3 +31,13 @@ afterAll(async () => {
   await mongo.stop();
   await mongoose.disconnect();
 });
+
+global.createOperator = async (name, email, password) => {
+  const operator = new Operator({
+    name: name,
+    email: email,
+    password: password,
+  });
+  await operator.save();
+  return operator;
+};

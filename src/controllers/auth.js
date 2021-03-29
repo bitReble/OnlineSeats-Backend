@@ -6,7 +6,7 @@ const Operator = require("../model/operator");
 const Admin = require("../model/admin");
 
 // importing user defined functions
-const { compare } = require("../util/password");
+const { compare, toHash } = require("../util/password");
 const { BadRequestError } = require("@coders2authority/tik-common");
 
 // operator signup controller
@@ -31,21 +31,19 @@ exports.signinOperator = async (req, res, next) => {
   const { email, password } = req.body;
 
   const operator = await Operator.findOne({ email: email });
+
   if (!operator) {
     throw new BadRequestError("invalid credentials");
   }
 
-  const isAuth = await compare(password, operator.password);
-
+  const isAuth = await compare(operator.password, password);
   if (!isAuth) {
     throw new BadRequestError("invalid credentials");
   }
 
-  const token = jwt.sign(
-    { encryptedId: operator._id },
-    process.env.jwt_secret,
-    { expiresIn: "2h" }
-  );
+  const token = jwt.sign({ encryptedId: operator._id }, process.env.JWT_KEY, {
+    expiresIn: "2h",
+  });
 
   return res.json({
     msg: "successfully logged in!",
