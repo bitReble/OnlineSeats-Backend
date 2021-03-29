@@ -11,8 +11,6 @@ const { BadRequestError } = require("@coders2authority/tik-common");
 
 // operator signup controller
 exports.signupOperator = async (req, res, next) => {
-  console.log({ emitted: "controllers.auth.signupOperator" });
-
   const { email, name, password } = req.body;
 
   const operator = new Operator({
@@ -30,8 +28,6 @@ exports.signupOperator = async (req, res, next) => {
 
 // operator signin controller
 exports.signinOperator = async (req, res, next) => {
-  console.log({ emitted: "controllers.auth.signinOperator" });
-
   const { email, password } = req.body;
 
   const operator = await Operator.findOne({ email: email });
@@ -61,8 +57,6 @@ exports.signinOperator = async (req, res, next) => {
 
 // admin signin controller
 exports.signinAdmin = async (req, res, next) => {
-  console.log({ emitted: "controllers.auth.signinAdmin" });
-
   const { email, password } = req.body;
   const admin = await Admin.findOne({ email: email });
   if (!admin) {
