@@ -12,9 +12,9 @@ const Operator = require("../model/operator");
 // initializing router
 const router = express.Router();
 
-// POST /auth/signup/operator
+// POST /auth/operator/signup
 router.post(
-  "/signup/operator",
+  "/operator/signup",
   [
     body("email")
       .isEmail()
@@ -36,9 +36,9 @@ router.post(
   authController.signupOperator
 );
 
-// POST /auth/signin/operator
+// POST /auth/operator/signin
 router.post(
-  "/signin/operator",
+  "/operator/signin",
   [
     body("email")
       .isEmail()
@@ -50,9 +50,9 @@ router.post(
   authController.signinOperator
 );
 
-// POST /auth/signin/admin
+// POST /auth/admin/signin
 router.post(
-  "/signin/admin",
+  "/admin/signin",
   [
     body("email")
       .isEmail()

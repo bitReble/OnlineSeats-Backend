@@ -4,7 +4,7 @@ const app = require("../../app");
 // Test admin's hit points
 it("validate email and password for admin @singIn", async () => {
   const res = await request(app)
-    .post("/auth/signin/admin")
+    .post("/auth/admin/signin")
     .send({
       email: "badEmail",
       password: "readPassword",
@@ -12,7 +12,7 @@ it("validate email and password for admin @singIn", async () => {
     .expect(400);
 
   const res2 = await request(app)
-    .post("/auth/signin/admin")
+    .post("/auth/admin/signin")
     .send({
       email: process.env.admin_email,
       password: "bad",
@@ -22,7 +22,7 @@ it("validate email and password for admin @singIn", async () => {
 
 it("returns error when invalid credentials were given for admin @singIn", async () => {
   const res = await request(app)
-    .post("/auth/signin/admin")
+    .post("/auth/admin/signin")
     .send({
       email: process.env.admin_email,
       password: "fakePassword",
@@ -30,7 +30,7 @@ it("returns error when invalid credentials were given for admin @singIn", async 
     .expect(400);
 
   const res2 = await request(app)
-    .post("/auth/signin/admin")
+    .post("/auth/admin/signin")
     .send({
       email: "fakeEmail@gmail.com",
       password: process.env.admin_password,
@@ -40,7 +40,7 @@ it("returns error when invalid credentials were given for admin @singIn", async 
 
 it("response with web tocken when valid credentials were given for admin @singIn", async () => {
   const res = await request(app)
-    .post("/auth/signin/admin")
+    .post("/auth/admin/signin")
     .send({
       email: process.env.admin_email,
       password: process.env.admin_password,
@@ -57,7 +57,7 @@ it("validate email and password for operator @singIn", async () => {
   const operator = await global.createOperator(name, email, password);
 
   const res = await request(app)
-    .post("/auth/signin/operator")
+    .post("/auth/operator/signin")
     .send({
       email: "badEmail",
       password: "readPassword",
@@ -65,7 +65,7 @@ it("validate email and password for operator @singIn", async () => {
     .expect(400);
 
   const res2 = await request(app)
-    .post("/auth/signin/operator")
+    .post("/auth/operator/signin")
     .send({
       email: process.env.admin_email,
       password: "bad",
@@ -80,7 +80,7 @@ it("returns error when invalid credentials were given for operator @singIn", asy
   const operator = await global.createOperator(name, email, password);
 
   const res = await request(app)
-    .post("/auth/signin/operator")
+    .post("/auth/operator/signin")
     .send({
       email: "operator",
       password: password,
@@ -88,7 +88,7 @@ it("returns error when invalid credentials were given for operator @singIn", asy
     .expect(400);
 
   const res2 = await request(app)
-    .post("/auth/signin/operator")
+    .post("/auth/operator/signin")
     .send({
       email: email,
       password: "wrontPassword",
@@ -105,7 +105,7 @@ it("response with web tocken when valid credentials were given for operator @sin
   const Operator = require("../../model/operator");
 
   const res = await request(app)
-    .post("/auth/signin/operator")
+    .post("/auth/operator/signin")
     .send({
       email: email,
       password: password,
@@ -120,7 +120,7 @@ it("validate email and password for operator @singUp", async () => {
   const name = "freedom";
 
   const res = await request(app)
-    .post("/auth/signup/operator")
+    .post("/auth/operator/signup")
     .send({
       naem: "",
       email: email,
@@ -129,7 +129,7 @@ it("validate email and password for operator @singUp", async () => {
     .expect(400);
 
   const res2 = await request(app)
-    .post("/auth/signup/operator")
+    .post("/auth/operator/signup")
     .send({
       name,
       email,
@@ -138,7 +138,7 @@ it("validate email and password for operator @singUp", async () => {
     .expect(400);
 
   const res3 = await request(app)
-    .post("/auth/signup/operator")
+    .post("/auth/operator/signup")
     .send({
       name,
       email: "wrontEmail",
@@ -153,7 +153,7 @@ it("create user when valid credentials were given for operator @singUp", async (
   const name = "freedom";
 
   const res = await request(app)
-    .post("/auth/signup/operator")
+    .post("/auth/operator/signup")
     .send({
       name,
       email,
