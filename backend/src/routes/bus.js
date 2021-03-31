@@ -9,6 +9,7 @@ const { body } = require("express-validator");
 
 // importing user defined controller modules
 const busController = require("../controllers/bus");
+const { allowOperator } = require("../middlewares/access-control");
 
 // importing user defined schema modules
 
@@ -35,6 +36,7 @@ router.post(
   validateRequest,
   currentUser,
   requireAuth,
+  allowOperator,
   busController.createBusType
 );
 

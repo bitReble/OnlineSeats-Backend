@@ -7,7 +7,7 @@ const { body } = require("express-validator");
 const authController = require("../controllers/auth");
 
 // importing user defined schema modules
-const Operator = require("../model/operator");
+const Operator = require("../models/operator");
 
 // initializing router
 const router = express.Router();

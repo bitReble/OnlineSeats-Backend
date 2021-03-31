@@ -102,8 +102,6 @@ it("response with web tocken when valid credentials were given for operator @sin
   const name = "freedom";
   const operator = await global.createOperator(name, email, password);
 
-  const Operator = require("../../model/operator");
-
   const res = await request(app)
     .post("/auth/operator/signin")
     .send({

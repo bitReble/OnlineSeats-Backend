@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-const { defineAdmin } = require("../util/define-admin");
-const Operator = require("../model/operator");
+const { defineAdmin } = require("../utils/define-admin");
+const Operator = require("../models/operator");
 
 let mongo;
 

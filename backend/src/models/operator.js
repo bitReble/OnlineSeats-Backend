@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
-const { toHash } = require("../util/password");
+const { toHash } = require("../utils/password");
 
 const Schema = mongoose.Schema;
 
-const adminSchema = new Schema(
+const operatorSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -13,11 +17,16 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
+    is_approved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
-adminSchema.pre("save", async function (next) {
+operatorSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     const hashedPassword = await toHash(this.get("password"));
     this.set("password", hashedPassword);
@@ -25,4 +34,4 @@ adminSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("Admin", adminSchema);
+module.exports = mongoose.model("Operator", operatorSchema);

@@ -1,6 +1,6 @@
 {
   "name": "@coders2authority/bus-common",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Commong module for bus booking system",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

@@ -2,11 +2,11 @@
 const jwt = require("jsonwebtoken");
 
 // importing user defined schema modules
-const Operator = require("../model/operator");
-const Admin = require("../model/admin");
+const Operator = require("../models/operator");
+const Admin = require("../models/admin");
 
 // importing user defined functions
-const { compare, toHash } = require("../util/password");
+const { compare, toHash } = require("../utils/password");
 const { BadRequestError } = require("@coders2authority/bus-common");
 
 // operator signup controller
