@@ -3,7 +3,7 @@ const {
   validateRequest,
   currentUser,
   requireAuth,
-} = require("@coders2authority/tik-common");
+} = require("@coders2authority/bus-common");
 const express = require("express");
 const { body } = require("express-validator");
 

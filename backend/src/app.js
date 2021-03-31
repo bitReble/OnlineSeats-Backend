@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 // importing user defined route modules
 const authRoutes = require("./routes/auth");
 const busRoutes = require("./routes/bus");
-const { errorHandler } = require("@coders2authority/tik-common");
+const { errorHandler } = require("@coders2authority/bus-common");
 
 // creating express app
 const app = express();

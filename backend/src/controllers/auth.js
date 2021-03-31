@@ -7,7 +7,7 @@ const Admin = require("../model/admin");
 
 // importing user defined functions
 const { compare, toHash } = require("../util/password");
-const { BadRequestError } = require("@coders2authority/tik-common");
+const { BadRequestError } = require("@coders2authority/bus-common");
 
 // operator signup controller
 exports.signupOperator = async (req, res, next) => {
