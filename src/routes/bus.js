@@ -19,18 +19,17 @@ const router = express.Router();
 router.post(
   "/create-bus-type",
   [
-    body("name").not().isEmpty().withMessage("name should be provided"),
+    body("name")
+      .isLength({ min: 2, max: 20 })
+      .withMessage("name should be provided"),
     body("number_of_seats")
-      .not()
-      .isEmpty()
-      .withMessage("number_of_seats should be provided"),
+      .isInt({ gt: 25 })
+      .withMessage("number_of_seats should be more than 25"),
     body("left")
-      .not()
-      .isEmpty()
+      .isInt({ gt: 0 })
       .withMessage("left(number of left seats) should be provided"),
     body("right")
-      .not()
-      .isEmpty()
+      .isInt({ gt: 0 })
       .withMessage("right(number of right seats) should be provided"),
   ],
   validateRequest,
