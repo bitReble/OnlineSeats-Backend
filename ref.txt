@@ -1,0 +1,2 @@
+#npm publish Failed PUT 402
+#https://stackoverflow.com/questions/45820881/npm-publish-failed-put-402
