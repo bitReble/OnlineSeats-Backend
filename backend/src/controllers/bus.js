@@ -11,11 +11,6 @@ const Operator = require("../models/operator");
 exports.createBusType = async (req, res, next) => {
   const { name, number_of_seats, left, right } = req.body;
 
-  const operator = await Operator.findById(req.currentUser.encryptedId);
-  if (!operator) {
-    throw new NotAuthorizedError();
-  }
-
   const busType = new BusType({
     name,
     number_of_seats,
