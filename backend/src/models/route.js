@@ -4,19 +4,19 @@ const Schema = mongoose.Schema;
 
 const routeSchema = new Schema(
   {
-    from: {
-      type: String,
-      required: true,
+    path: {
+      type: [
+        {
+          type: String,
+        },
+      ],
+      validate: [
+        (path) => {
+          return path.length >= 2;
+        },
+        "path should be more than 2 elements",
+      ],
     },
-    to: {
-      type: String,
-      required: true,
-    },
-    path: [
-      {
-        type: String,
-      },
-    ],
   },
   { timestamps: true }
 );
