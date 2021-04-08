@@ -36,6 +36,12 @@ const scheduleSchema = new Schema(
         required: true,
       },
     ],
+    ticket: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Ticket",
+      },
+    ],
   },
   { timestamps: true }
 );
