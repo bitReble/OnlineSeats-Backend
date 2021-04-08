@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth");
 const busRoutes = require("./routes/bus");
 const routeRoutes = require("./routes/route");
 const scheduleRoutes = require("./routes/schedule");
+const ticketRoutes = require("./routes/ticket");
 
 // creating express app
 const app = express();
@@ -31,6 +32,7 @@ app.use("/auth", authRoutes);
 app.use("/bus", busRoutes);
 app.use("/route", routeRoutes);
 app.use("/schedule", scheduleRoutes);
+app.use("/ticket", ticketRoutes);
 
 app.use(errorHandler);
 

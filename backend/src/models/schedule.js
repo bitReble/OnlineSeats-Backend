@@ -36,6 +36,10 @@ const scheduleSchema = new Schema(
         required: true,
       },
     ],
+    price: {
+      type: Number,
+      required: true,
+    },
     ticket: [
       {
         type: Schema.Types.ObjectId,

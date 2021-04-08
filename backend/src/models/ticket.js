@@ -28,6 +28,9 @@ const ticketSchema = new Schema(
     locked_time: {
       type: Date,
     },
+    locked_token: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

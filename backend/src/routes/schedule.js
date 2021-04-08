@@ -32,6 +32,7 @@ router.post(
     body("recurring")
       .isArray({ min: 1 })
       .withMessage("recurring should be provided"),
+    body("price").isInt().withMessage("price should be provided"),
   ],
   validateRequest,
   scheduleController.createSchedule

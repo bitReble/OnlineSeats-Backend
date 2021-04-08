@@ -55,6 +55,7 @@ it("create schedule when valid input was given", async () => {
       departure: new Date(),
       arrival: new Date(),
       recurring: ["monday"],
+      price: 20,
     })
     .expect(201);
 });
