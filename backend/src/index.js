@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const app = require("./app");
-const { defineAdmin } = require("./util/define-admin");
+const { defineAdmin } = require("./utils/define-admin");
 
 // port may very according to the server we are deploying
 const PORT = process.env.PORT || 3000;
@@ -17,6 +17,13 @@ if (!process.env.admin_password) {
 if (!process.env.JWT_KEY) {
   throw new Error("JWT_KEY must be defined");
 }
+
+const closeDBConnection = () => {
+  mongoose.connection.close();
+  process.exit();
+};
+
+process.on("SIGINT", closeDBConnection);
 
 // connecting mongodb
 mongoose

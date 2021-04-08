@@ -16,7 +16,7 @@ const { allowOperator } = require("../middlewares/access-control");
 // initializing router
 const router = express.Router();
 
-// POST /bus/create-route
+// POST /route/create-route
 router.post(
   "/create-route",
   currentUser,

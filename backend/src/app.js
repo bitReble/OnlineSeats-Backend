@@ -1,12 +1,13 @@
 require("express-async-errors");
 const express = require("express");
 const bodyParser = require("body-parser");
+const { errorHandler } = require("@coders2authority/bus-common");
 
 // importing user defined route modules
 const authRoutes = require("./routes/auth");
 const busRoutes = require("./routes/bus");
 const routeRoutes = require("./routes/route");
-const { errorHandler } = require("@coders2authority/bus-common");
+const scheduleRoutes = require("./routes/schedule");
 
 // creating express app
 const app = express();
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, PATCH, DELETE"
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorizaition");
   next();
 });
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/bus", busRoutes);
 app.use("/route", routeRoutes);
+app.use("/schedule", scheduleRoutes);
 
 app.use(errorHandler);
 
