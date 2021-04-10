@@ -40,10 +40,11 @@ const scheduleSchema = new Schema(
       type: Number,
       required: true,
     },
-    ticket: [
+    tickets: [
       {
         type: Schema.Types.ObjectId,
         ref: "Ticket",
+        required: true,
       },
     ],
   },

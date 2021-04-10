@@ -8,13 +8,13 @@ const ticketSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Passenger",
     },
-    seat_number: {
-      type: Number,
-      required: true,
-    },
     schedule: {
       type: Schema.Types.ObjectId,
       ref: "Schedule",
+      required: true,
+    },
+    seat_number: {
+      type: Number,
       required: true,
     },
     day: {
