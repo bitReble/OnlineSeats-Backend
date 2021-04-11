@@ -17,7 +17,7 @@ const ticketSchema = new Schema(
       type: Number,
       required: true,
     },
-    day: {
+    date: {
       type: Date,
       required: true,
     },
@@ -25,7 +25,7 @@ const ticketSchema = new Schema(
       type: Number,
       required: true,
     },
-    locked_time: {
+    locked_till: {
       type: Date,
     },
     locked_token: {

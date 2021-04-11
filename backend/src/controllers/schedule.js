@@ -39,7 +39,7 @@ exports.createSchedule = async (req, res, next) => {
       const ticket = new Ticket({
         schedule: schedule._id,
         seat_number: j,
-        day: date,
+        date,
         price,
       });
       await ticket.save();
@@ -47,6 +47,5 @@ exports.createSchedule = async (req, res, next) => {
     }
   }
   await schedule.save();
-  console.log(schedule);
   return res.status(201).json(schedule);
 };
