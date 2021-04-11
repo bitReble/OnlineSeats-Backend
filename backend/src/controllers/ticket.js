@@ -28,3 +28,21 @@ exports.lockTicket = async (req, res, next) => {
   await ticket.save();
   return res.status(201).send(ticket);
 };
+
+exports.reserveTicket = async (req, res, next) => {
+  const { ticket_id, locked_token } = req.body;
+  const ticket = await Ticket.findById(ticket_id);
+  if (!ticket) {
+    throw new NotFountError();
+  } else if (ticket.passenger) {
+    throw new NotAuthorizedError("ticket already reseved");
+  }
+  if (ticket.locked_token != locked_token) {
+    throw new NotAuthorizedError("invalid token");
+  }
+
+  ticket.passenger = req.currentUser.encryptedId;
+  await ticket.save();
+
+  return res.status(201).send(ticket);
+};

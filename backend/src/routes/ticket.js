@@ -16,8 +16,22 @@ router.post(
   "/lock-ticket",
   currentUser,
   requireAuth,
-  [body("ticket_id").isEmpty().withMessage("ticket_id should be an array")],
+  [body("ticket_id").isEmpty().withMessage("ticket_id should be provided")],
   ticketController.lockTicket
+);
+
+// POST /ticket/reserve-ticket
+router.post(
+  "/reserve-ticket",
+  currentUser,
+  requireAuth,
+  [
+    body("ticket_id").isEmpty().withMessage("ticket_id should be provided"),
+    body("locked_token")
+      .isEmpty()
+      .withMessage("locked_token should be provided"),
+  ],
+  ticketController.reserveTicket
 );
 
 // exporting the router
