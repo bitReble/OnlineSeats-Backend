@@ -35,7 +35,13 @@ const seed = async () => {
 
   const searchResults = await Schedule.find({
     $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
-  }).populate([{ path: "tickets", match: { date: dateO } }]);
+  }).populate([
+    { path: "tickets", match: { date: dateO } },
+    { path: "route", match: { path: { $all: ["Colombo", "Sammanthurai"] } } },
+  ]);
+  console.log(searchResults[0].route.path);
 };
+
+// https://stackoverflow.com/questions/36019713/mongodb-nested-lookup-with-3-levels
 
 seed();

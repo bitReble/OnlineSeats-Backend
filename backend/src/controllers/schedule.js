@@ -57,7 +57,7 @@ exports.getSchedule = async (req, res, next) => {
   const dateO = new Date(date).setHours(0, 0, 0, 0);
   const schedule = await Schedule.find({
     $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
-  }).populate("tickets bus_type route");
-  writeThis(schedule);
-  return res.end();
+  }).populate([{ path: "tickets", match: { date: dateO } }]);
+  // writeThis(schedule);
+  return res.status(200).json(schedule);
 };
