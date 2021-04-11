@@ -38,5 +38,19 @@ router.post(
   scheduleController.createSchedule
 );
 
+// POST /schedule/get-schedule
+router.post(
+  "/get-schedule",
+  currentUser,
+  requireAuth,
+  [
+    body("from").notEmpty().withMessage("from should be provided"),
+    body("to").notEmpty().withMessage("to should be provided"),
+    body("date").notEmpty().withMessage("date should be provided"),
+  ],
+  validateRequest,
+  scheduleController.getSchedule
+);
+
 // exporting the router
 module.exports = router;
