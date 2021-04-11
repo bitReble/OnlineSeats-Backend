@@ -34,9 +34,9 @@ exports.createSchedule = async (req, res, next) => {
 
   const difference = (toDO - fromDO) / (1000 * 60 * 60 * 24);
 
-  for (let i = 0; i < difference; i++) {
+  for (let i = 0; i <= difference; i++) {
     const fromT = new Date(fromDO);
-    const date = new Date(fromT.setDate(fromT.getDate() + (i + 1)));
+    const date = new Date(fromT.setDate(fromT.getDate() + i));
     for (let j = 0; j < busType.number_of_seats; j++) {
       const ticket = new Ticket({
         schedule: schedule._id,
@@ -58,6 +58,6 @@ exports.getSchedule = async (req, res, next) => {
   const schedule = await Schedule.find({
     $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
   }).populate("tickets bus_type route");
-  // writeThis(schedule);
+  writeThis(schedule);
   return res.end();
 };
