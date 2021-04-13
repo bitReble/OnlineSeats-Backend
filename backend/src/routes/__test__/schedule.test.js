@@ -136,4 +136,27 @@ it("returns schedule for relevent input", async () => {
       date: new Date(),
     })
     .expect(200);
+  expect(res2.body.length).toEqual(1);
+
+  const res3 = await request(app)
+    .post("/schedule/get-schedule")
+    .set("Authorizaition", `Bearer: ${authPayload.body.token}`)
+    .send({
+      from: to,
+      to: from,
+      date: new Date(),
+    })
+    .expect(200);
+  expect(res3.body.length).toEqual(0);
+
+  const res4 = await request(app)
+    .post("/schedule/get-schedule")
+    .set("Authorizaition", `Bearer: ${authPayload.body.token}`)
+    .send({
+      from,
+      to,
+      date: new Date().setDate(new Date().getDate() + 6),
+    })
+    .expect(200);
+  expect(res4.body.length).toEqual(0);
 });

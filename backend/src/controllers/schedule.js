@@ -54,10 +54,44 @@ exports.createSchedule = async (req, res, next) => {
 
 exports.getSchedule = async (req, res, next) => {
   const { from, to, date } = req.body;
-  const dateO = new Date(date).setHours(0, 0, 0, 0);
-  const schedule = await Schedule.find({
-    $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
-  }).populate([{ path: "tickets", match: { date: dateO } }]);
-  // writeThis(schedule);
+  const dateO = new Date(new Date(date).setHours(0, 0, 0, 0));
+
+  const schedule = await Schedule.aggregate([
+    { $match: { $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }] } },
+    {
+      $lookup: {
+        from: "routes",
+        pipeline: [{ $match: { $and: [{ path: { $all: [from, to] } }] } }],
+        as: "route",
+      },
+    },
+    {
+      $unwind: "$route",
+    },
+    {
+      $lookup: {
+        from: "tickets",
+        pipeline: [
+          {
+            $match: {
+              date: dateO,
+            },
+          },
+        ],
+        as: "tickets",
+      },
+    },
+    {
+      $match: {
+        $expr: {
+          $gt: [
+            { $indexOfArray: ["$route.path", to] },
+            { $indexOfArray: ["$route.path", from] },
+          ],
+        },
+      },
+    },
+  ]);
+
   return res.status(200).json(schedule);
 };
