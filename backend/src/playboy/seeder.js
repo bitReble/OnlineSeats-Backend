@@ -33,15 +33,64 @@ const seed = async () => {
 
   const dateO = new Date(new Date().setHours(0, 0, 0, 0));
 
-  const searchResults = await Schedule.find({
-    $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
-  }).populate([
-    { path: "tickets", match: { date: dateO } },
-    { path: "route", match: { path: { $all: ["Colombo", "Sammanthurai"] } } },
+  const from = "Colombo";
+  const to = "Sammanthurai";
+
+  // const searchResults = await Schedule.find({
+  //   $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }],
+  // }).populate([
+  //   { path: "tickets", match: { date: dateO } },
+  //   { path: "route", match: { path: { $all: ["Colombo", "Sammanthurai"] } } },
+  // ]);
+  // console.log(searchResults[0].route.path);
+
+  // const searchResults = await Schedule.aggregate([
+  //   {
+  //     $lookup: {
+  //       from: "tickets",
+  //       pipeline: [
+  //         {
+  //           $match: {
+  //             date: dateO,
+  //           },
+  //         },
+  //       ],
+  //       as: "tickets",
+  //     },
+  //   },
+  // ]);
+
+  const searchResults = await Schedule.aggregate([
+    { $match: { $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }] } },
+    {
+      $lookup: {
+        from: "routes",
+        // localField: "route",
+        // foreignField: "_id",
+        pipeline: [{ $match: { $and: [{ path: { $all: [from, to] } }] } }],
+        as: "route",
+      },
+    },
+    {
+      $unwind: "$route",
+    },
+    {
+      $lookup: {
+        from: "tickets",
+        pipeline: [
+          {
+            $match: {
+              date: dateO,
+            },
+          },
+        ],
+        as: "tickets",
+      },
+    },
   ]);
-  console.log(searchResults[0].route.path);
+  console.log(searchResults[0]);
 };
-
+// https://stackoverflow.com/questions/37705517/mongodb-lookup-not-working-with-id
 // https://stackoverflow.com/questions/36019713/mongodb-nested-lookup-with-3-levels
-
+// https://stackoverflow.com/questions/35813854/how-to-join-multiple-collections-with-lookup-in-mongodb
 seed();
