@@ -47,6 +47,11 @@ const scheduleSchema = new Schema(
         required: true,
       },
     ],
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "Operator",
+      required: true,
+    },
   },
   { timestamps: true }
 );

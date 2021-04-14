@@ -4,7 +4,7 @@ const Schedule = require("../models/schedule");
 
 exports.createRoute = async (req, res, next) => {
   const { path } = req.body;
-  const route = new Route({ path });
+  const route = new Route({ path, creator: req.currentUser.encryptedId });
   await route.save();
   return res.status(201).json(route);
 };

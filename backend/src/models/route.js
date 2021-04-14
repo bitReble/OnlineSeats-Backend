@@ -17,6 +17,11 @@ const routeSchema = new Schema(
         "path should be more than 2 elements",
       ],
     },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "Operator",
+      required: true,
+    },
   },
   { timestamps: true }
 );

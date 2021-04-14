@@ -20,6 +20,7 @@ exports.createSchedule = async (req, res, next) => {
   const fromDO = new Date(from).setHours(0, 0, 0, 0);
 
   const schedule = new Schedule({
+    creator: req.currentUser.encryptedId,
     route,
     bus_type,
     from: fromDO,

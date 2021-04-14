@@ -109,7 +109,7 @@ it("returns schedule for relevent input", async () => {
   const from = "Colombo";
   const to = "Sammanthurai";
 
-  const route = new Route({ path: [from, to] });
+  const route = new Route({ path: [from, to], creator: operator._id });
   await route.save();
 
   const res = await request(app)
