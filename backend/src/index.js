@@ -30,6 +30,7 @@ mongoose
   .connect(process.env.mongodb_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(async (_) => {
     // defining admin

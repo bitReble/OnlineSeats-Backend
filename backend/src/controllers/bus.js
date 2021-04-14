@@ -21,3 +21,26 @@ exports.createBusType = async (req, res, next) => {
   await busType.save();
   res.status(201).json(busType);
 };
+
+exports.updateBusType = async (req, res, next) => {
+  const { bus_id, name, number_of_seats, left, right } = req.body;
+
+  const updatedBusType = await BusType.findByIdAndUpdate(
+    bus_id,
+    {
+      name,
+      number_of_seats,
+      left,
+      right,
+    },
+    { new: true }
+  );
+
+  return res.status(201).json(updatedBusType);
+};
+
+exports.deleteBusType = async (req, res, next) => {
+  const { bus_id } = req.body;
+  const deletedBusType = await BusType.findByIdAndDelete(bus_id);
+  return res.status(201).json(deletedBusType);
+};

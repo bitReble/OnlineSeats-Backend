@@ -40,5 +40,27 @@ router.post(
   busController.createBusType
 );
 
+// PUT /bus/update-bus-type
+router.put(
+  "/update-bus-type",
+  [body("bus_id").notEmpty().withMessage("bus_id should be provided")],
+  validateRequest,
+  currentUser,
+  requireAuth,
+  allowOperator,
+  busController.updateBusType
+);
+
+// DELETE /bus/delete-bus-type
+router.delete(
+  "/delete-bus-type",
+  [body("bus_id").notEmpty().withMessage("bus_id should be provided")],
+  validateRequest,
+  currentUser,
+  requireAuth,
+  allowOperator,
+  busController.deleteBusType
+);
+
 // exporting the router
 module.exports = router;
