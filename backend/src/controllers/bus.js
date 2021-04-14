@@ -4,6 +4,7 @@ const { NotAuthorizedError } = require("@coders2authority/bus-common");
 // importing user defined schema modules
 const BusType = require("../models/bus-type");
 const Operator = require("../models/operator");
+const Schedule = require("../models/schedule");
 
 // importing user defined functions
 
@@ -25,6 +26,14 @@ exports.createBusType = async (req, res, next) => {
 exports.updateBusType = async (req, res, next) => {
   const { bus_id, name, number_of_seats, left, right } = req.body;
 
+  const isBusBinded = await Schedule.exists({ bus_type: bus_id });
+
+  if (isBusBinded) {
+    throw new BadRequestError(
+      "can't update, bus_type was binded with a schedule"
+    );
+  }
+
   const updatedBusType = await BusType.findByIdAndUpdate(
     bus_id,
     {
@@ -41,6 +50,15 @@ exports.updateBusType = async (req, res, next) => {
 
 exports.deleteBusType = async (req, res, next) => {
   const { bus_id } = req.body;
+
+  const isBusBinded = await Schedule.exists({ bus_type: bus_id });
+
+  if (isBusBinded) {
+    throw new BadRequestError(
+      "can't delete, bus_type was binded with a schedule"
+    );
+  }
+
   const deletedBusType = await BusType.findByIdAndDelete(bus_id);
   return res.status(201).json(deletedBusType);
 };
