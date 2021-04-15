@@ -53,6 +53,45 @@ exports.createSchedule = async (req, res, next) => {
   return res.status(201).json(schedule);
 };
 
+exports.updateSchedule = async (req, res, next) => {
+  let {
+    schedule_id,
+    route,
+    bus_type,
+    from,
+    to,
+    departure,
+    arrival,
+    recurring,
+    price,
+  } = req.body;
+
+  const schedule = await Schedule.findByIdAndUpdate(
+    schedule_id,
+    {
+      route,
+      bus_type,
+      from,
+      to,
+      departure,
+      arrival,
+      recurring,
+      price,
+    },
+    { new: true }
+  );
+
+  return res.status(201).json(schedule);
+};
+
+exports.deleteSchedule = async (req, res, next) => {
+  let { schedule_id } = req.body;
+
+  const schedule = await Schedule.findOneAndDelete(schedule_id);
+
+  return res.status(201).json(schedule);
+};
+
 exports.getSchedule = async (req, res, next) => {
   const { from, to, date } = req.body;
   const dateO = new Date(new Date(date).setHours(0, 0, 0, 0));
