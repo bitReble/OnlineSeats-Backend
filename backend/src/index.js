@@ -3,7 +3,7 @@ const app = require("./app");
 const { defineAdmin } = require("./utils/define-admin");
 
 // port may very according to the server we are deploying
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 if (!process.env.mongodb_url) {
   throw new Error("mongodb_url must be defined");

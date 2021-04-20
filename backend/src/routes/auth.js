@@ -8,6 +8,7 @@ const authController = require("../controllers/auth");
 
 // importing user defined schema modules
 const Operator = require("../models/operator");
+const Passenger = require("../models/passenger");
 
 // initializing router
 const router = express.Router();
@@ -34,6 +35,30 @@ router.post(
   ],
   validateRequest,
   authController.signupOperator
+);
+
+// POST /auth/passenger/signup
+router.post(
+  "/passenger/signup",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("please enter a valid email!")
+      .custom((value, { req }) => {
+        return Passenger.findOne({ email: value }).then((user) => {
+          if (user) {
+            return Promise.reject(
+              "your email address already exist in our system!"
+            );
+          }
+        });
+      })
+      .normalizeEmail(),
+    body("password").trim().isLength({ min: 8 }),
+    body("name").trim().not().isEmpty(),
+  ],
+  validateRequest,
+  authController.signupPassenger
 );
 
 // POST /auth/operator/signin

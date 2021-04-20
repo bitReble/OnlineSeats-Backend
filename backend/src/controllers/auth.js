@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 // importing user defined schema modules
 const Operator = require("../models/operator");
+const Passenger = require("../models/passenger");
 const Admin = require("../models/admin");
 
 // importing user defined functions
@@ -21,8 +22,25 @@ exports.signupOperator = async (req, res, next) => {
 
   await operator.save();
   return res.status(201).json({
-    msg: "operator was successfully created!",
+    message: "operator was successfully created!",
     _id: operator._id,
+  });
+};
+
+// passenger signup controller
+exports.signupPassenger = async (req, res, next) => {
+  const { email, name, password } = req.body;
+
+  const passenger = new Passenger({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  await passenger.save();
+  return res.status(201).json({
+    message: "passenger was successfully created!",
+    _id: passenger._id,
   });
 };
 
@@ -46,7 +64,7 @@ exports.signinOperator = async (req, res, next) => {
   });
 
   return res.json({
-    msg: "successfully logged in!",
+    message: "successfully logged in!",
     token: token,
     user_id: operator._id,
     expires_in: 2 * 60 * 60,
@@ -72,7 +90,7 @@ exports.signinAdmin = async (req, res, next) => {
   });
 
   return res.json({
-    msg: "successfully logged in!",
+    message: "successfully logged in!",
     token: token,
     user_id: admin._id,
     expires_in: 2 * 60 * 60,
