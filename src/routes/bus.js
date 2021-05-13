@@ -7,7 +7,7 @@ const {
 const express = require("express");
 const { body } = require("express-validator");
 
-// importing user defined controller modules
+// importing user defined controller modules // pushe to heroku
 const busController = require("../controllers/bus");
 const { allowOperator } = require("../middlewares/access-control");
 
