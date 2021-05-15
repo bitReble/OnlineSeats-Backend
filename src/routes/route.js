@@ -27,5 +27,23 @@ router.post(
   routeController.createRoute
 );
 
+// GET /route/get-route
+router.get(
+  "/get-route",
+  currentUser,
+  requireAuth,
+  allowOperator,
+  routeController.getRoutes
+);
+
+// POST  /route/delete-route
+router.post(
+  "/delete-route",
+  currentUser,
+  requireAuth,
+  allowOperator,
+  routeController.deleteRoute
+);
+
 // exporting the router
 module.exports = router;
