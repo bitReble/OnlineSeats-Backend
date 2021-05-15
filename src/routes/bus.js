@@ -51,8 +51,8 @@ router.put(
   busController.updateBusType
 );
 
-// DELETE /bus/delete-bus-type
-router.delete(
+// POST /bus/delete-bus-type
+router.post(
   "/delete-bus-type",
   [body("bus_id").notEmpty().withMessage("bus_id should be provided")],
   validateRequest,
@@ -60,6 +60,15 @@ router.delete(
   requireAuth,
   allowOperator,
   busController.deleteBusType
+);
+
+// GET /bus/get-bus-type
+router.get(
+  "/get-bus-type",
+  currentUser,
+  requireAuth,
+  allowOperator,
+  busController.getBusType
 );
 
 // exporting the router

@@ -23,6 +23,11 @@ exports.createBusType = async (req, res, next) => {
   res.status(201).json(busType);
 };
 
+exports.getBusType = async (req, res, next) => {
+  const busTypes = await BusType.find({ creator: req.currentUser.encryptedId });
+  res.json(busTypes);
+};
+
 exports.updateBusType = async (req, res, next) => {
   const { bus_id, name, number_of_seats, left, right } = req.body;
 
