@@ -45,5 +45,14 @@ router.post(
   routeController.deleteRoute
 );
 
+// PUT  /route/update-route
+router.put(
+  "/update-route",
+  currentUser,
+  requireAuth,
+  allowOperator,
+  routeController.updateRoute
+);
+
 // exporting the router
 module.exports = router;
