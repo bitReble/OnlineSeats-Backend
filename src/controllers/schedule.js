@@ -5,16 +5,8 @@ const Ticket = require("../models/ticket");
 const { writeThis } = require("../utils/fs");
 
 exports.createSchedule = async (req, res, next) => {
-  let {
-    route,
-    bus_type,
-    from,
-    to,
-    departure,
-    arrival,
-    recurring,
-    price,
-  } = req.body;
+  let { route, bus_type, from, to, departure, arrival, recurring, price } =
+    req.body;
 
   const toDO = new Date(to).setHours(0, 0, 0, 0);
   const fromDO = new Date(from).setHours(0, 0, 0, 0);

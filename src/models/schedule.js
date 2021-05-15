@@ -23,11 +23,11 @@ const scheduleSchema = new Schema(
       required: true,
     },
     departure: {
-      type: Date,
+      type: String,
       required: true,
     },
     arrival: {
-      type: Date,
+      type: String,
       required: true,
     },
     recurring: [
