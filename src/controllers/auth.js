@@ -71,6 +71,33 @@ exports.signinOperator = async (req, res, next) => {
   });
 };
 
+// passenger signin controller
+exports.signinPassenger = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const passenger = await Passenger.findOne({ email: email });
+
+  if (!passenger) {
+    throw new BadRequestError("invalid credentials");
+  }
+
+  const isAuth = await compare(passenger.password, password);
+  if (!isAuth) {
+    throw new BadRequestError("invalid credentials");
+  }
+
+  const token = jwt.sign({ encryptedId: passenger._id }, process.env.JWT_KEY, {
+    expiresIn: "2h",
+  });
+
+  return res.json({
+    message: "successfully logged in!",
+    token: token,
+    user_id: passenger._id,
+    expires_in: 2 * 60 * 60,
+  });
+};
+
 // admin signin controller
 exports.signinAdmin = async (req, res, next) => {
   const { email, password } = req.body;

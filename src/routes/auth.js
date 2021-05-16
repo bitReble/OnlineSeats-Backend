@@ -75,6 +75,20 @@ router.post(
   authController.signinOperator
 );
 
+// POST /auth/passenger/signin
+router.post(
+  "/passenger/signin",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("please enter a valid email!")
+      .normalizeEmail(),
+    body("password").trim().isLength({ min: 8 }),
+  ],
+  validateRequest,
+  authController.signinPassenger
+);
+
 // POST /auth/admin/signin
 router.post(
   "/admin/signin",
