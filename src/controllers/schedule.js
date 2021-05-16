@@ -88,7 +88,7 @@ exports.getSchedule = async (req, res, next) => {
   const { from, to, date } = req.body;
   const dateO = new Date(new Date(date).setHours(0, 0, 0, 0));
 
-  const schedule = await Schedule.aggregate([
+  let schedules = await Schedule.aggregate([
     { $match: { $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }] } },
     {
       $lookup: {
@@ -124,6 +124,9 @@ exports.getSchedule = async (req, res, next) => {
       },
     },
   ]);
-
-  return res.status(200).json(schedule);
+  schedules = schedules.map((schedule) => {
+    delete schedule.tickets;
+    return schedule;
+  });
+  return res.status(200).json(schedules);
 };

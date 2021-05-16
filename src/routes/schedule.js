@@ -38,6 +38,31 @@ router.post(
   scheduleController.createSchedule
 );
 
+// PUT /schedule/update-schedule
+router.put(
+  "/update-schedule",
+  currentUser,
+  requireAuth,
+  allowOperator,
+  [
+    body("schedule_id")
+      .notEmpty()
+      .withMessage("schedule_id should be provided"),
+    body("route").notEmpty().withMessage("route should be provided"),
+    body("bus_type").notEmpty().withMessage("bus_type should be provided"),
+    body("from").notEmpty().withMessage("from should be provided"),
+    body("to").notEmpty().withMessage("to should be provided"),
+    body("departure").notEmpty().withMessage("departure should be provided"),
+    body("arrival").notEmpty().withMessage("arrival should be provided"),
+    body("recurring")
+      .isArray({ min: 1 })
+      .withMessage("recurring should be provided"),
+    body("price").isInt().withMessage("price should be provided"),
+  ],
+  validateRequest,
+  scheduleController.updateSchedule
+);
+
 // POST /schedule/get-schedule
 router.post(
   "/get-schedule",
