@@ -1,5 +1,5 @@
 // importing modules
-const { NotAuthorizedError } = require("@coders2authority/bus-common");
+const { BadRequestError } = require("@coders2authority/bus-common");
 
 // importing user defined schema modules
 const BusType = require("../models/bus-type");
