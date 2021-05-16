@@ -68,8 +68,15 @@ router.get(
   "/get-schedule",
   currentUser,
   requireAuth,
-  validateRequest,
   scheduleController.getSchedule
+);
+
+// POST /schedule/search-schedule
+router.post(
+  "/search-schedule",
+  currentUser,
+  requireAuth,
+  scheduleController.searchSchedule
 );
 
 // POST /schedule/delete-schedule
@@ -77,7 +84,6 @@ router.post(
   "/delete-schedule",
   currentUser,
   requireAuth,
-  validateRequest,
   scheduleController.deleteSchedule
 );
 

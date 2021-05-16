@@ -8,8 +8,8 @@ exports.createSchedule = async (req, res, next) => {
   let { route, bus_type, from, to, departure, arrival, recurring, price } =
     req.body;
 
-  const toDO = new Date(to).setHours(0, 0, 0, 0);
-  const fromDO = new Date(from).setHours(0, 0, 0, 0);
+  const toDO = new Date(to);
+  const fromDO = new Date(from);
 
   let schedule = new Schedule({
     creator: req.currentUser.encryptedId,
@@ -87,7 +87,7 @@ exports.deleteSchedule = async (req, res, next) => {
 
 exports.searchSchedule = async (req, res, next) => {
   const { from, to, date } = req.body;
-  const dateO = new Date(new Date(date).setHours(0, 0, 0, 0));
+  const dateO = new Date(date);
 
   let schedules = await Schedule.aggregate([
     { $match: { $and: [{ from: { $lte: dateO } }, { to: { $gte: dateO } }] } },
