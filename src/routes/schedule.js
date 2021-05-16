@@ -87,5 +87,13 @@ router.post(
   scheduleController.deleteSchedule
 );
 
+// POST /schedule/get-single-schedule
+router.post(
+  "/get-single-schedule",
+  currentUser,
+  requireAuth,
+  scheduleController.getSingleSchedule
+);
+
 // exporting the router
 module.exports = router;

@@ -2,7 +2,7 @@
 const Schedule = require("../models/schedule");
 const BusType = require("../models/bus-type");
 const Ticket = require("../models/ticket");
-const { writeThis } = require("../utils/fs");
+const fs = require("fs");
 
 exports.createSchedule = async (req, res, next) => {
   let { route, bus_type, from, to, departure, arrival, recurring, price } =
@@ -126,6 +126,7 @@ exports.searchSchedule = async (req, res, next) => {
     },
   ]);
   schedules = schedules.map((schedule) => {
+    schedule.date = dateO;
     delete schedule.tickets;
     return schedule;
   });
@@ -137,4 +138,28 @@ exports.getSchedule = async (req, res, next) => {
     creator: req.currentUser.encryptedId,
   }).populate("route bus_type");
   return res.status(200).json(schedules);
+};
+
+exports.getSingleSchedule = async (req, res, next) => {
+  const { schedule_id, date } = req.body;
+  let schedule = await Schedule.findOne({
+    _id: schedule_id,
+  }).populate([
+    {
+      path: "bus_type",
+    },
+    {
+      path: "route",
+    },
+    {
+      path: "tickets",
+      match: {
+        date: date,
+      },
+    },
+  ]);
+
+  // fs.writeFileSync("debug.json", JSON.stringify(schedule), (err) => {});
+
+  return res.status(200).json(schedule);
 };
