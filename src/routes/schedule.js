@@ -64,17 +64,21 @@ router.put(
 );
 
 // POST /schedule/get-schedule
-router.post(
+router.get(
   "/get-schedule",
   currentUser,
   requireAuth,
-  [
-    body("from").notEmpty().withMessage("from should be provided"),
-    body("to").notEmpty().withMessage("to should be provided"),
-    body("date").notEmpty().withMessage("date should be provided"),
-  ],
   validateRequest,
   scheduleController.getSchedule
+);
+
+// POST /schedule/delete-schedule
+router.post(
+  "/delete-schedule",
+  currentUser,
+  requireAuth,
+  validateRequest,
+  scheduleController.deleteSchedule
 );
 
 // exporting the router

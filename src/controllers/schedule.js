@@ -11,7 +11,7 @@ exports.createSchedule = async (req, res, next) => {
   const toDO = new Date(to).setHours(0, 0, 0, 0);
   const fromDO = new Date(from).setHours(0, 0, 0, 0);
 
-  const schedule = new Schedule({
+  let schedule = new Schedule({
     creator: req.currentUser.encryptedId,
     route,
     bus_type,
@@ -41,7 +41,8 @@ exports.createSchedule = async (req, res, next) => {
       schedule.tickets.push(ticket);
     }
   }
-  await schedule.save();
+  schedule = await schedule.save();
+  schedule = await Schedule.findOne({ _id: schedule._id }).populate("route");
   return res.status(201).json(schedule);
 };
 
@@ -71,7 +72,7 @@ exports.updateSchedule = async (req, res, next) => {
       price,
     },
     { new: true }
-  );
+  ).populate("route bus_type");
 
   return res.status(201).json(schedule);
 };
@@ -84,7 +85,7 @@ exports.deleteSchedule = async (req, res, next) => {
   return res.status(201).json(schedule);
 };
 
-exports.getSchedule = async (req, res, next) => {
+exports.searchSchedule = async (req, res, next) => {
   const { from, to, date } = req.body;
   const dateO = new Date(new Date(date).setHours(0, 0, 0, 0));
 
@@ -128,5 +129,12 @@ exports.getSchedule = async (req, res, next) => {
     delete schedule.tickets;
     return schedule;
   });
+  return res.status(200).json(schedules);
+};
+
+exports.getSchedule = async (req, res, next) => {
+  let schedules = await Schedule.find({
+    creator: req.currentUser.encryptedId,
+  }).populate("route bus_type");
   return res.status(200).json(schedules);
 };
