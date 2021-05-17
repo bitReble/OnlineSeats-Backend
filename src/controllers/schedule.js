@@ -124,7 +124,7 @@ exports.searchSchedule = async (req, res, next) => {
         },
       },
     },
-  ]);
+  ]).collation({ locale: "en", strength: 2 });
   schedules = schedules.map((schedule) => {
     schedule.date = dateO;
     delete schedule.tickets;

@@ -27,9 +27,9 @@ router.post(
   requireAuth,
   [
     body("ticket_id").isEmpty().withMessage("ticket_id should be provided"),
-    body("locked_token")
-      .isEmpty()
-      .withMessage("locked_token should be provided"),
+    // body("locked_token")
+    //   .isEmpty()
+    //   .withMessage("locked_token should be provided"),
   ],
   ticketController.reserveTicket
 );

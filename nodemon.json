@@ -3,6 +3,7 @@
     "mongodb_url": "mongodb://localhost:27017/booking",
     "admin_email": "slbooking@gmail.com",
     "admin_password": "bitReble",
-    "JWT_KEY": "i_use_bitreble_for_jwt"
+    "JWT_KEY": "i_use_bitreble_for_jwt",
+    "STRIPE_SECRET_KEY": ""
   }
 }

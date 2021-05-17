@@ -1,5 +1,8 @@
 const { randomBytes } = require("crypto");
 const moment = require("moment");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const uuid = require("uuid").v4;
+
 const {
   NotFountError,
   NotAuthorizedError,
@@ -30,16 +33,38 @@ exports.lockTicket = async (req, res, next) => {
 };
 
 exports.reserveTicket = async (req, res, next) => {
-  const { ticket_id, locked_token } = req.body;
+  // const { ticket_id, locked_token } = req.body;
+  const { ticket_id, token } = req.body;
+
   const ticket = await Ticket.findById(ticket_id);
   if (!ticket) {
     throw new NotFountError();
   } else if (ticket.passenger) {
     throw new NotAuthorizedError("ticket already reseved");
   }
-  if (ticket.locked_token != locked_token) {
-    throw new NotAuthorizedError("invalid token");
-  }
+
+  // if (ticket.locked_token != locked_token) {
+  //   throw new NotAuthorizedError("invalid token");
+  // }
+
+  const customer = await stripe.customers.create({
+    email: token.email,
+    source: token.id,
+  });
+
+  const idempotency_key = uuid();
+  const charge = await stripe.charges.create(
+    {
+      amount: ticket.price * 100,
+      currency: "lkr",
+      customer: customer.id,
+      receipt_email: token.email,
+      description: `Purchased the ${ticket._id}`,
+    },
+    {
+      idempotency_key,
+    }
+  );
 
   ticket.passenger = req.currentUser.encryptedId;
   await ticket.save();
