@@ -6,6 +6,7 @@ const uuid = require("uuid").v4;
 const {
   NotFountError,
   NotAuthorizedError,
+  BadRequestError,
 } = require("@coders2authority/bus-common");
 
 // importing user defined schema modules
@@ -53,18 +54,24 @@ exports.reserveTicket = async (req, res, next) => {
   });
 
   const idempotency_key = uuid();
-  const charge = await stripe.charges.create(
-    {
-      amount: ticket.price * 100,
-      currency: "lkr",
-      customer: customer.id,
-      receipt_email: token.email,
-      description: `Purchased the ${ticket._id}`,
-    },
-    {
-      idempotency_key,
-    }
-  );
+  try {
+    const charge = await stripe.charges.create(
+      {
+        amount: ticket.price * 100,
+        currency: "lkr",
+        customer: customer.id,
+        receipt_email: token.email,
+        description: `Purchased the ${ticket._id}`,
+      },
+      {
+        idempotencyKey: idempotency_key,
+      }
+    );
+  } catch (err) {
+    throw new BadRequestError(
+      "payment was rejected, please try different card!"
+    );
+  }
 
   ticket.passenger = req.currentUser.encryptedId;
   await ticket.save();

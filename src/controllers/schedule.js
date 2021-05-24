@@ -94,7 +94,17 @@ exports.searchSchedule = async (req, res, next) => {
     {
       $lookup: {
         from: "routes",
-        pipeline: [{ $match: { $and: [{ path: { $all: [from, to] } }] } }],
+        let: { route: "$route" },
+        pipeline: [
+          {
+            $match: {
+              $and: [
+                { path: { $all: [from, to] } },
+                { $expr: { $eq: ["$_id", "$$route"] } },
+              ],
+            },
+          },
+        ],
         as: "route",
       },
     },
